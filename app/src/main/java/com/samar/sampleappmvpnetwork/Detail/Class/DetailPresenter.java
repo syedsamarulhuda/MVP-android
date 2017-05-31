@@ -27,8 +27,8 @@ public class DetailPresenter implements IDetailPresenter ,IDetailInteractor.OnLo
 
     @Override
     public void addData() {
-
-        detailInteractor.loadData(this,context);
+        if(detailView!=null)
+        detailInteractor.loadData(detailView.getProgress(),detailView.getContainer(),detailView.getHeader(),this,context);
     }
 
 

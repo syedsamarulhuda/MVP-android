@@ -1,6 +1,7 @@
 package com.samar.sampleappmvpnetwork.Detail.Interface;
 
 import android.content.Context;
+import android.view.ViewGroup;
 
 /**
  * Created by samar on 25/05/17.
@@ -15,5 +16,5 @@ public interface IDetailInteractor {
     }
 
 
-    void loadData(OnLoadFinishListener onLoadFinishListener, Context context);
+    void loadData(ViewGroup progress,ViewGroup header,ViewGroup content, OnLoadFinishListener onLoadFinishListener, Context context);
 }

@@ -1,12 +1,15 @@
 package com.samar.sampleappmvpnetwork.Detail.Interface;
 
+import android.view.ViewGroup;
+
 /**
  * Created by samar on 24/05/17.
  */
 
 public interface IDetailView {
 
-    void showProgress();
-    void hideProgress();
+    ViewGroup getProgress();
+    ViewGroup getContainer();
+    ViewGroup getHeader();
     void setViewData(String title,String body);
 }

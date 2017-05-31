@@ -11,12 +11,15 @@ import com.samar.sampleappmvpnetwork.Login.Interface.ILoginInteractor;
 public class LoginInteractor implements ILoginInteractor {
 
 
-    String uName="samar";
-    String pass="samar123";
-    String msg="Wrong Credentials";
+    private String uName="samar";
+    private String pass="samar123";
+    private String msg="Wrong Credentials";
+     OnLoginFinishListener finishListener;
+
     @Override
     public void login(String name, String password, OnLoginFinishListener onLoginFinishListener) {
 
+        this.finishListener=onLoginFinishListener;
         boolean error = false;
         if (TextUtils.isEmpty(name)){
             onLoginFinishListener.onUsernameError();
@@ -41,4 +44,10 @@ public class LoginInteractor implements ILoginInteractor {
             onLoginFinishListener.onSuccess();
         }
     }
+
+    @Override
+    public OnLoginFinishListener getOnLogin() {
+        return finishListener;
+    }
+
 }

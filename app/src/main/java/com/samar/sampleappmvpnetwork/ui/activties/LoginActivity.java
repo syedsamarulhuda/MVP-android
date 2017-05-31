@@ -27,6 +27,9 @@ public class LoginActivity extends BaseActivity implements ILoginView, View.OnCl
 
     @Override
     protected void initViews() {
+
+        Intent intentToDetail = new Intent(this, DetailActivity.class);
+        startActivity(intentToDetail);
         edtUsername = (EditText) findViewById(R.id.username);
         edtPassword = (EditText) findViewById(R.id.password);
         tvErrorMsg=(TextView)findViewById(R.id.tvInvalidUserMsg);
@@ -41,24 +44,34 @@ public class LoginActivity extends BaseActivity implements ILoginView, View.OnCl
 
     @Override
     public void showProgress() {
-        progressContent.setVisibility(View.VISIBLE);
+        progress.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgress() {
-        progressContent.setVisibility(View.GONE);
+        progress.setVisibility(View.GONE);
+    }
+
+    @Override
+    public String getUsername() {
+        return edtUsername.getText().toString();
+    }
+
+    @Override
+    public String getPassword() {
+        return edtPassword.getText().toString();
     }
 
     @Override
     public void setUsernameError() {
 
-        edtUsername.setError("Username Cannot Be Empty!");
+        edtUsername.setError(getString(R.string.username_error));
     }
 
     @Override
     public void setPasswordError() {
 
-        edtPassword.setError("Password Cannot Be Empty!");
+        edtPassword.setError(getString(R.string.password_error));
     }
 
     @Override

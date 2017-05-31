@@ -6,5 +6,7 @@ package com.samar.sampleappmvpnetwork.Login.Interface;
 
 public interface ILoginPresenter {
 
+    void onResume();
+    void onDestroy();
     void validateCredentials(String username, String password);
 }

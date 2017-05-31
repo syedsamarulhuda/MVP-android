@@ -1,6 +1,7 @@
 package com.samar.sampleappmvpnetwork.Detail.Class;
 
 import android.content.Context;
+import android.view.ViewGroup;
 
 import com.google.gson.JsonSyntaxException;
 import com.samar.sampleappmvpnetwork.Detail.Interface.IDetailInteractor;
@@ -17,17 +18,16 @@ import org.json.JSONObject;
 
 public class DetailInteractor implements WebserviceResponseListener, IDetailInteractor {
 
-    OnLoadFinishListener onLoadFinishListener;
+    private OnLoadFinishListener onLoadFinishListener;
+    private String title;
+    private String body;
 
-    private String url = "https://jsonplaceholder.typicode.com/posts/1";
-    private String title ;
-    private String body ;
     @Override
-    public void loadData(OnLoadFinishListener onLoadFinishListener, Context context) {
-
+    public void loadData(ViewGroup progress, ViewGroup header, ViewGroup content, OnLoadFinishListener onLoadFinishListener, Context context) {
         this.onLoadFinishListener = onLoadFinishListener;
 
-        new WebservicePostJsonAsyn(context, this, url, null, null, "get", null, null, 111).execute();
+        String url = "https://jsonplaceholder.typicode.com/posts/1";
+        new WebservicePostJsonAsyn(context, this, url, 111, "get", null, progress, content, header).execute();
 
     }
 
@@ -53,4 +53,7 @@ public class DetailInteractor implements WebserviceResponseListener, IDetailInte
     public void response(String response, String via) throws JsonSyntaxException, NullPointerException {
 
     }
+
+
+
 }

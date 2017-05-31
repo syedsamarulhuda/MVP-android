@@ -8,6 +8,8 @@ public interface ILoginView {
 
     void showProgress();
     void hideProgress();
+    String getUsername();
+    String getPassword();
     void setUsernameError();
     void setPasswordError();
     void setInvalidCredentials(String msg);

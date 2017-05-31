@@ -10,9 +10,9 @@ import com.samar.sampleappmvpnetwork.R;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
-    public ViewGroup frameHeader;
-    public ViewGroup progressContent;
-    public ViewGroup contentLayout;
+    public ViewGroup header;
+    public ViewGroup progress;
+    public ViewGroup content;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,16 +32,16 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
 
-        contentLayout = (ViewGroup) findViewById(R.id.content_frame_layout);
-        progressContent = (ViewGroup) findViewById(R.id.progress_layout);
-        frameHeader = (ViewGroup) findViewById(R.id.header_frame);
+        content = (ViewGroup) findViewById(R.id.content_frame_layout);
+        progress = (ViewGroup) findViewById(R.id.progress_layout);
+        header = (ViewGroup) findViewById(R.id.header_frame);
 
         if (getLayoutId() != 0 && getLayoutId() != -1) {
             View layoutView = LayoutInflater.from(this).inflate(getLayoutId(), null);
-            contentLayout.addView(layoutView);
+            content.addView(layoutView);
         } else {
             if (getLayoutId() == -1) {
-                contentLayout.setVisibility(View.GONE);
+                content.setVisibility(View.GONE);
             }
         }
 
@@ -50,20 +50,20 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     }
 
-    public ViewGroup getFrameHeader() {
-        return frameHeader;
+    public ViewGroup getHeaderView() {
+        return header;
     }
 
 
 
-    public ViewGroup getProgressContent() {
-        return progressContent;
+    public ViewGroup getProgressView() {
+        return progress;
     }
 
 
 
-    public ViewGroup getContentLayout() {
-        return contentLayout;
+    public ViewGroup getContentView() {
+        return content;
     }
 
 

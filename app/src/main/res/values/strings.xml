@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">SampleAppMVPNetwork</string>
+    <string name="username_error">Username Cannot Be Empty!</string>
+    <string name="password_error">Password Cannot Be Empty!</string>
 </resources>

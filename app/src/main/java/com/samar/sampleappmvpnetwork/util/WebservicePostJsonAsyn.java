@@ -6,7 +6,6 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 
 import com.samar.logutil.LogUtil;
 
@@ -60,48 +59,19 @@ public class WebservicePostJsonAsyn extends AsyncTask<String, String, String> {
     protected ViewGroup contentLayout;
     protected int url_id;
 
-    String accessToken="dashboard";
+    String accessToken = "dashboard";
 
-    public WebservicePostJsonAsyn(Context mContext,
-                                  WebserviceResponseListener mListenerRoot, String url,
-                                  JSONObject mJsonObject, ProgressBar mProgress, String via,
-                                  ViewGroup mContentContainer, ViewGroup mFrameHeader, int url_id ) {
-        // TODO Auto-generated constructor stub
+    public WebservicePostJsonAsyn(Context mContext, WebserviceResponseListener mListenerRoot, String url, int url_id, String via, JSONObject mJsonObject, ViewGroup progressContent, ViewGroup mContentContainer, ViewGroup mFrameHeader) {
         this.mContext = mContext;
         this.mJsonObject = mJsonObject;
         this.mListener = mListenerRoot;
         this.url = url;
-        //this.isProgressDialog = isProgressDialog;
-        this.via = via;
-        //this.mProgress = mProgress;
-
-        this.mContentContainer = mContentContainer;
-        this.mFrameHeader = mFrameHeader;
         this.url_id = url_id;
-        //Log.d("WebServices", "url is" + url);
-
-    }
-
-
-
-    public WebservicePostJsonAsyn(Context mContext,
-                                  WebserviceResponseListener mListenerRoot, String url,
-                                  JSONObject mJsonObject, ViewGroup progressContent, ViewGroup contentLayout, String via, ViewGroup mContentContainer, ViewGroup mFrameHeader, int url_id ) {
-        // TODO Auto-generated constructor stub
-        this.mContext = mContext;
-        this.mJsonObject = mJsonObject;
-        this.mListener = mListenerRoot;
-        this.url = url;
         this.via = via;
         this.progressContent = progressContent;
-        this.contentLayout=contentLayout;
         this.mContentContainer = mContentContainer;
         this.mFrameHeader = mFrameHeader;
-        this.url_id = url_id;
-
     }
-
-
 
 
     @Override
@@ -110,31 +80,26 @@ public class WebservicePostJsonAsyn extends AsyncTask<String, String, String> {
         super.onPreExecute();
 
 
-        LogUtil.d(true,"#CALLED","1");
-        if(progressContent!=null)
-        {
+        LogUtil.d(true, "#CALLED", "1");
+        if (progressContent != null) {
             mFrameHeader.setVisibility(View.GONE);
             mContentContainer.setVisibility(View.GONE);
             progressContent.setVisibility(View.VISIBLE);
-            contentLayout.setVisibility(View.GONE);
+
         }
-
-
 
 
     }
 
     @Override
-    protected void onPostExecute(String response)  {
+    protected void onPostExecute(String response) {
 
         super.onPostExecute(response);
 
-        LogUtil.d(true,"###RES###",response==null?"":response);
+        LogUtil.d(true, "###RES###", response == null ? "" : response);
 
-        if(response != null)
-        {
-            if(response == "")
-            {
+        if (response != null) {
+            if (response == "") {
                 mListener.onError();
                 // return;
             }
@@ -142,7 +107,7 @@ public class WebservicePostJsonAsyn extends AsyncTask<String, String, String> {
         }
         if (response != null) {
 
-            mListener.responseWithId(response, via,url_id);
+            mListener.responseWithId(response, via, url_id);
             mListener.response(response, via);
 
 
@@ -150,26 +115,20 @@ public class WebservicePostJsonAsyn extends AsyncTask<String, String, String> {
 
                /* Toast.makeText(mContext, R.string.something_went_wrong,
                         Toast.LENGTH_SHORT).show();*/
-          //  mListener.slowInternetConnction();
+            //  mListener.slowInternetConnction();
 
 
         }
 
-        if(progressContent!=null)
-        {
+        if (progressContent != null) {
             progressContent.setVisibility(View.GONE);
             mFrameHeader.setVisibility(View.VISIBLE);
             mContentContainer.setVisibility(View.VISIBLE);
-            contentLayout.setVisibility(View.VISIBLE);
 
         }
 
 
-
     }
-
-
-
 
 
     /***
@@ -183,7 +142,7 @@ public class WebservicePostJsonAsyn extends AsyncTask<String, String, String> {
      */
     public String SendHttpPost(String URL, JSONObject jsonObjSend) {
 
-        LogUtil.d(true,"#CALLED","2");
+        LogUtil.d(true, "#CALLED", "2");
         String resultString = "";
         try {
             DefaultHttpClient httpclient = new DefaultHttpClient();
@@ -205,7 +164,7 @@ public class WebservicePostJsonAsyn extends AsyncTask<String, String, String> {
             httpPostRequest.setHeader("Accept", "application/json");
             httpPostRequest.setHeader("Content-type", "application/json");
             httpPostRequest.setHeader("Accept-Encoding", "utf-8");
-            httpPostRequest.setHeader("Authorization", "bearer "+accessToken);
+            httpPostRequest.setHeader("Authorization", "bearer " + accessToken);
 
             //httpPostRequest.setHeader("Authorization", "Bearer "+ PrefUtils.getString(mContext, Constants.API_ACCESS_TOKEN,Constants.BEARER_CONSTANT));
 
@@ -234,21 +193,18 @@ public class WebservicePostJsonAsyn extends AsyncTask<String, String, String> {
                 // convert content stream to a String
                 resultString = convertStreamToString(instream);
                 instream.close();
-                System.out.println("Above the response string httpPost"+resultString);
+                System.out.println("Above the response string httpPost" + resultString);
                 return resultString;
             }
 
-        }
-        catch (UnknownHostException uhe)
-        {
+        } catch (UnknownHostException uhe) {
             //mListener.slowInternetConnction();
             return null;
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             // More about HTTP exception handling in another tutorial.
             // For now we just print the stack trace.
             e.printStackTrace();
-            if (isProgressDialog&&mProgressDialog.isShowing()) {
+            if (isProgressDialog && mProgressDialog.isShowing()) {
                 mProgressDialog.dismiss();
             }
 
@@ -281,16 +237,16 @@ public class WebservicePostJsonAsyn extends AsyncTask<String, String, String> {
             httpURLConnection.setDoOutput(true);
             httpURLConnection.setRequestProperty("Content-type", "application/json");
             httpURLConnection.setRequestProperty("Accept-Encoding", "utf-8");
-            httpURLConnection.setRequestProperty("Authorization", "bearer "+accessToken);
+            httpURLConnection.setRequestProperty("Authorization", "bearer " + accessToken);
             //httpURLConnection.setRequestProperty("Authorization", "Bearer "+Constants.BEARER_CONSTANT);
-          //  httpURLConnection.setRequestProperty("Authorization", "Bearer "+ PrefUtils.getString(mContext, Constants.API_ACCESS_TOKEN,Constants.BEARER_CONSTANT));//httppost.setHeader("Authorization", "Bearer "+accessToken);
+            //  httpURLConnection.setRequestProperty("Authorization", "Bearer "+ PrefUtils.getString(mContext, Constants.API_ACCESS_TOKEN,Constants.BEARER_CONSTANT));//httppost.setHeader("Authorization", "Bearer "+accessToken);
 
 
             //httpURLConnection.addRequestProperty("inventory_items","FEXP15400-L-30032");//for testing
 
             // int responseCode = httpURLConnection.getResponseCode();
 
-            if (requestBody != null && requestBody!= "") {
+            if (requestBody != null && requestBody != "") {
                 // httpURLConnection.setDoInput(true);
                 // httpURLConnection.setDoOutput(true);
                 DataOutputStream out = new DataOutputStream(httpURLConnection.getOutputStream());
@@ -315,14 +271,11 @@ public class WebservicePostJsonAsyn extends AsyncTask<String, String, String> {
 
             return resultString;
 
-        }
-        catch (UnknownHostException uhe)
-        {
+        } catch (UnknownHostException uhe) {
 
             // mListener.slowInternetConnction();
             return null;
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
 
@@ -371,7 +324,7 @@ public class WebservicePostJsonAsyn extends AsyncTask<String, String, String> {
             httpURLConnection.setDoOutput(true);
             httpURLConnection.setRequestProperty("Content-type", "application/json");
             httpURLConnection.setRequestProperty("Accept-Encoding", "utf-8");
-            httpURLConnection.setRequestProperty("Authorization", "bearer "+accessToken);
+            httpURLConnection.setRequestProperty("Authorization", "bearer " + accessToken);
             //httpURLConnection.setRequestProperty("Authorization", "Bearer "+Constants.BEARER_CONSTANT);
             //httpURLConnection.setRequestProperty("Authorization", "Bearer "+ PrefUtils.getString(mContext, Constants.API_ACCESS_TOKEN,Constants.BEARER_CONSTANT));//httppost.setHeader("Authorization", "Bearer "+accessToken);
 
@@ -379,10 +332,10 @@ public class WebservicePostJsonAsyn extends AsyncTask<String, String, String> {
             //httpURLConnection.addRequestProperty("inventory_items","FEXP15400-L-30032");//for testing
 
 
-            if (requestBody != null && requestBody!= "") {
+            if (requestBody != null && requestBody != "") {
                 httpURLConnection.setDoInput(true);
                 httpURLConnection.setDoOutput(true);
-              //  httpURLConnection.getResponseCode();
+                //  httpURLConnection.getResponseCode();
                 DataOutputStream out = new DataOutputStream(httpURLConnection.getOutputStream());
                 out.writeBytes(requestBody);
                 out.flush();
@@ -392,7 +345,7 @@ public class WebservicePostJsonAsyn extends AsyncTask<String, String, String> {
 
 
             httpURLConnection.connect();
-          //  httpURLConnection.getResponseCode();
+            //  httpURLConnection.getResponseCode();
             BufferedReader in = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream()));
             String temp = null;
             StringBuilder sb = new StringBuilder();
@@ -405,15 +358,11 @@ public class WebservicePostJsonAsyn extends AsyncTask<String, String, String> {
 
             return resultString;
 
-        }
-        catch (UnknownHostException uhe)
-        {
+        } catch (UnknownHostException uhe) {
 
             //mListener.slowInternetConnction();
             return null;
-        }
-        catch (FileNotFoundException fne)
-        {
+        } catch (FileNotFoundException fne) {
             mListener.onError();
         } catch (IOException e) {
             // TODO Auto-generated catch block
@@ -435,7 +384,6 @@ public class WebservicePostJsonAsyn extends AsyncTask<String, String, String> {
         return resultString;
 
     }
-
 
 
     public String HttpPatchRequest(String url, String requestBody)
@@ -461,8 +409,8 @@ public class WebservicePostJsonAsyn extends AsyncTask<String, String, String> {
             httpURLConnection.setDoOutput(true);
             httpURLConnection.setRequestProperty("Content-type", "application/json");
             httpURLConnection.setRequestProperty("Accept-Encoding", "utf-8");
-            httpURLConnection.setRequestProperty("Authorization", "bearer "+accessToken);
-           // httpURLConnection.setRequestProperty("Authorization", "Bearer "+ PrefUtils.getString(mContext, Constants.API_ACCESS_TOKEN,Constants.BEARER_CONSTANT));//httppost.setHeader("Authorization", "Bearer "+accessToken);
+            httpURLConnection.setRequestProperty("Authorization", "bearer " + accessToken);
+            // httpURLConnection.setRequestProperty("Authorization", "Bearer "+ PrefUtils.getString(mContext, Constants.API_ACCESS_TOKEN,Constants.BEARER_CONSTANT));//httppost.setHeader("Authorization", "Bearer "+accessToken);
 
 
             //httpURLConnection.addRequestProperty("inventory_items","FEXP15400-L-30032");//for testing
@@ -492,14 +440,11 @@ public class WebservicePostJsonAsyn extends AsyncTask<String, String, String> {
 
             return resultString;
 
-        }
-        catch (UnknownHostException uhe)
-        {
+        } catch (UnknownHostException uhe) {
 
             //mListener.slowInternetConnction();
             return null;
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
             //logger.error(e.getMessage());
@@ -521,13 +466,6 @@ public class WebservicePostJsonAsyn extends AsyncTask<String, String, String> {
     }
 
 
-
-
-
-
-
-
-
     public String SendHttpGettstring(String URL) {
         String resultString = "";
         try {
@@ -538,7 +476,7 @@ public class WebservicePostJsonAsyn extends AsyncTask<String, String, String> {
             httpGetRequest.setHeader("Accept", "application/json");
             httpGetRequest.setHeader("Content-Type", "application/json");
             httpGetRequest.setHeader("Accept-Encoding", "utf-8"); // only
-           // httpGetRequest.setHeader("Authorization", "bearer "+accessToken);
+            // httpGetRequest.setHeader("Authorization", "bearer "+accessToken);
 
             //   httpGetRequest.setHeader("Authorization", "Bearer "+ PrefUtils.getString(mContext, Constants.API_ACCESS_TOKEN,Constants.BEARER_CONSTANT));
 
@@ -568,15 +506,14 @@ public class WebservicePostJsonAsyn extends AsyncTask<String, String, String> {
                 return resultString;
             }
 
-        } catch (UnknownHostException uhe)
-        {
+        } catch (UnknownHostException uhe) {
 
             // mListener.slowInternetConnction();
             return null;
         } catch (Exception e) {
             // More about HTTP exception handling in another tutorial.
             // For now we just print the stack trace.
-            System.out.println("COnnection timed out"+e.getMessage());
+            System.out.println("COnnection timed out" + e.getMessage());
             e.printStackTrace();
             mListener.onError();
         }
@@ -584,7 +521,7 @@ public class WebservicePostJsonAsyn extends AsyncTask<String, String, String> {
     }
 
     private static String convertStreamToString(InputStream is) {
-		/*
+        /*
 		 * To convert the InputStream to String we use the
 		 * BufferedReader.readLine() method. We iterate until the BufferedReader
 		 * return null which means there's no more data to read. Each line will
@@ -618,35 +555,28 @@ public class WebservicePostJsonAsyn extends AsyncTask<String, String, String> {
     protected String doInBackground(String... params) {
 
 
-
         long startTime = System.currentTimeMillis();
-        LogUtil.d(true,"###URL###",url);
+        LogUtil.d(true, "###URL###", url);
         String response;
 
         if (via.equalsIgnoreCase("post")) {
 
             response = SendHttpPost(url, mJsonObject);
 
-        } else if (via.equalsIgnoreCase("")||via.equalsIgnoreCase("get")){
+        } else if (via.equalsIgnoreCase("") || via.equalsIgnoreCase("get")) {
             response = SendHttpGettstring(url);
-        }
-        else if (via.equalsIgnoreCase("patch")){
-            LogUtil.d(true,"##METHOD","PATCH");
-            response = HttpPatchRequest(url,mJsonObject==null?"":mJsonObject.toString());
-        }
-        else if(via.equalsIgnoreCase("delete"))
-        {
-            response = DeleteHttpRequest(url,mJsonObject==null?"":mJsonObject.toString());
-        }
-        else
-        {
-            response = UpdateHttpRequest(url,mJsonObject==null?"":mJsonObject.toString());
+        } else if (via.equalsIgnoreCase("patch")) {
+            LogUtil.d(true, "##METHOD", "PATCH");
+            response = HttpPatchRequest(url, mJsonObject == null ? "" : mJsonObject.toString());
+        } else if (via.equalsIgnoreCase("delete")) {
+            response = DeleteHttpRequest(url, mJsonObject == null ? "" : mJsonObject.toString());
+        } else {
+            response = UpdateHttpRequest(url, mJsonObject == null ? "" : mJsonObject.toString());
         }
 
         long endtime = System.currentTimeMillis();
 
-        long timediff = endtime-startTime;
-
+        long timediff = endtime - startTime;
 
 
         // LogUtil.d("TIMEDIFF_DOINBG",timediff+"#URL#"+url);
@@ -700,8 +630,6 @@ public class WebservicePostJsonAsyn extends AsyncTask<String, String, String> {
         // return JSON String
         return jObj;
     }
-
-
 
 
 }

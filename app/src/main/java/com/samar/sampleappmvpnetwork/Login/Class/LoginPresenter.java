@@ -20,6 +20,18 @@ public class LoginPresenter implements ILoginPresenter,LoginInteractor.OnLoginFi
 
 
     @Override
+    public void onResume() {
+        if (iLoginView != null) {
+            iLoginView.showProgress();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+
+    }
+
+    @Override
     public void validateCredentials(String username, String password) {
 
         if(iLoginView!=null)

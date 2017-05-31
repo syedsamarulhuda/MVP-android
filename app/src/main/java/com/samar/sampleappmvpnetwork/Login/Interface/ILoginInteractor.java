@@ -14,7 +14,7 @@ public interface ILoginInteractor {
         void onSuccess();
     }
 
-
+    OnLoginFinishListener getOnLogin();
     void login(String name, String password,OnLoginFinishListener onLoginFinishListener);
 
 }
